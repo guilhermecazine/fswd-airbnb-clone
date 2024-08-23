@@ -46,40 +46,38 @@ module Api
     end
 
     def mark_complete
-      # You can find your endpoint's secret in your webhook settings
       endpoint_secret = ENV['STRIPE_MARK_COMPLETE_WEBHOOK_SIGNING_SECRET']
-
       event = nil
 
-      # Verify webhook signature and extract the event
-      # See https://stripe.com/docs/webhooks/signatures for more information.
+      # verify webhook signature and extract event
       begin
         sig_header = request.env['HTTP_STRIPE_SIGNATURE']
         payload = request.body.read
         event = Stripe::Webhook.construct_event(
           payload, sig_header, endpoint_secret
         )
-      rescue JSON::ParserError => e
-        # Invalid payload
+      rescue JSON::ParserError => e 
+        # invalid payload
         return head :bad_request
-      rescue Stripe::SignatureVerificationError => e
-        # Invalid signature
+      rescue Stripe::SignatureVerificationError => e 
+        # invalid signature
         return head :bad_request
       end
 
-      # Handle the checkout.session.completed event
+      # handle checkout.session.completed event
       if event['type'] == 'checkout.session.completed'
         session = event['data']['object']
 
-        # Fulfill the purchase, mark related charge as complete
+        # fulfill purchase, mark related charge as completed
         charge = Charge.find_by(checkout_session_id: session.id)
+
         return head :bad_request if !charge
 
         charge.update({ complete: true })
 
         return head :ok
       end
-
+      
       return head :bad_request
     end
   end

@@ -1,5 +1,4 @@
 json.property do
-  json.id @property.id
   json.title @property.title
   json.description @property.description
   json.city @property.city

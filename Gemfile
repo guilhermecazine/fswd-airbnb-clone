@@ -15,6 +15,7 @@ gem 'webpacker', '~> 5.0'
 gem 'kaminari'
 
 gem 'stripe'
+
 # Use Uglifier as compressor for JavaScript assets
 # gem 'uglifier', '~> 4.2.0'
 # See https://github.com/rails/execjs#readme for more supported runtimes

@@ -9,6 +9,17 @@ json.properties do
     json.country property.country
     json.property_type property.property_type
     json.price_per_night property.price_per_night
-    json.image_url property.image_url
+    
+    json.images do
+      json.array! property.images do |image|
+        json.url url_for(image) if property.images.attached?
+      end
+    end
+
+
+    json.user do
+      json.id property.user.id
+      json.username property.user.username
+    end
   end
 end

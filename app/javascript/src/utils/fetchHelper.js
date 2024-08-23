@@ -29,14 +29,14 @@ export function authenticityHeader(options = {}) {
 }
 
 /**
-* Lets fetch include credentials in the request. This includes cookies and other possibly sensitive data.
-* Note: Never use for requests across (untrusted) domains.
-*/
+ * Lets fetch include credentials in the request. This includes cookies and other possibly sensitive data.
+ * Note: Never use for requests across (untrusted) domains.
+ */
 export function safeCredentials(options = {}) {
   return Object.assign(options, {
     credentials: 'include',
     mode: 'same-origin',
-    headers: Object.assign((options.headers || {}), authenticityHeader(), jsonHeader()),
+    headers: Object.assign(options.headers || {}, authenticityHeader(), jsonHeader()),
   });
 }
 
@@ -45,4 +45,12 @@ export function handleErrors(response) {
     throw Error(response.statusText);
   }
   return response.json();
+}
+
+export function safeCredentialsForm(options = {}) {
+  return Object.assign(options, {
+    credentials: 'include',
+    mode: 'same-origin',
+    headers: Object.assign((options.headers || {}), authenticityHeader()),
+  });
 }
