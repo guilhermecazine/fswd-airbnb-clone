@@ -6,6 +6,7 @@
   },
   "dependencies": {
     "@babel/preset-react": "^7.16.7",
+    "@fortawesome/react-fontawesome": "^0.1.14",
     "@rails/actioncable": "^6.0.0",
     "@rails/activestorage": "^6.0.0",
     "@rails/ujs": "^6.0.0",
